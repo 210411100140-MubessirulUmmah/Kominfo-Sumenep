@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class Menu_model extends Model
+{
+    // Menu berita
+    public function berita()
+    {
+        $builder = $this->db->table('berita');
+        $builder->select('berita.id_kategori,berita.icon, berita.ringkasan, berita.gambar, kategori.nama_kategori, kategori.slug_kategori');
+        $builder->join('kategori', 'kategori.id_kategori = berita.id_kategori');
+        $builder->where(['status_berita' => 'Publish', 'jenis_berita' => 'Berita']);
+        $builder->groupBy('berita.id_kategori');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    // Menu profil
+    public function profil()
+    {
+        $builder = $this->db->table('berita');
+        $builder->select('berita.judul_berita, berita.icon, berita.ringkasan, berita.gambar, berita.slug_berita, berita.id_berita');
+        $builder->where(['status_berita' => 'Publish', 'jenis_berita' => 'Profil']);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    // Menu layanan
+    public function layanan()
+    {
+        $builder = $this->db->table('berita');
+        $builder->select('berita.judul_berita, berita.icon, berita.ringkasan, berita.gambar, berita.slug_berita, berita.id_berita');
+        $builder->where(['status_berita' => 'Publish', 'jenis_berita' => 'Layanan']);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    // Menu Galeri
+    public function galeri()
+    {
+        $builder = $this->db->table('galeri');
+        $builder->select('galeri.judul_galeri, galeri.jenis_galeri, galeri.gambar, galeri.id_galeri');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    public function video()
+    {
+        $builder = $this->db->table('video');
+        $builder->select('video.judul, video.keterangan, video.video, video.id_video');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+    // Menu Download
+    public function download()
+    {
+        $builder = $this->db->table('download');
+        $builder->select('download.judul_download, download.jenis_download, download.isi, download.gambar, download.id_kategori_download');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+}
